@@ -1,0 +1,47 @@
+ SELECT instant,
+    dteday,
+    season,
+    yr,
+    mnth,
+    hr,
+    holiday,
+    weekday,
+    workingday,
+    weathersit,
+    temp,
+    atemp,
+    hum,
+    windspeed,
+    casual,
+    registered,
+    cnt,
+    temp_celsius,
+        CASE
+            WHEN season = 1 THEN 'Spring'::text
+            WHEN season = 2 THEN 'Summer'::text
+            WHEN season = 3 THEN 'Fall'::text
+            WHEN season = 4 THEN 'Winter'::text
+            ELSE NULL::text
+        END AS season_name,
+        CASE
+            WHEN yr = 0 THEN '2011'::text
+            WHEN yr = 1 THEN '2012'::text
+            ELSE NULL::text
+        END AS year_label,
+        CASE
+            WHEN weathersit = 1 THEN 'Clear'::text
+            WHEN weathersit = 2 THEN 'Mist/Cloudy'::text
+            WHEN weathersit = 3 THEN 'Light Rain/Snow'::text
+            WHEN weathersit = 4 THEN 'Heavy Rain/Ice'::text
+            ELSE NULL::text
+        END AS weather_label,
+        CASE
+            WHEN yr = 0 THEN 2011
+            WHEN yr = 1 THEN 2012
+            ELSE NULL::integer
+        END AS year_num,
+    round(temp * 47::numeric * 1.8 + 32::numeric, 2) AS temp_f,
+    round(atemp * 66::numeric * 1.8 + 32::numeric, 2) AS real_feel_f,
+    round(windspeed * 67::numeric * 0.621371, 2) AS windspeed_mph,
+    to_char(dteday::timestamp with time zone, 'FMMonth'::text) AS month_name
+   FROM bike_rentals_hourly;
