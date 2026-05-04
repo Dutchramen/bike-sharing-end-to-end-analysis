@@ -1,2 +1,4 @@
 # bike-sharing-end-to-end-analysis
-End‑to‑end analytics project using SQL, Python, and Power BI to explore seasonality, weather impact, hourly patterns, and user behavior in the UCI Bike Sharing dataset. Includes data cleaning, modeling, EDA, and a multi‑page interactive dashboard.
+A complete end‑to‑end analytics workflow built from raw data to insights.
+This project uses SQL for data cleaning and modeling, Python for exploratory analysis and forecasting preparation, and Power BI for a polished 5‑page interactive dashboard covering seasonality, hourly patterns, weather impact, and user segmentation.
+Designed as a portfolio‑ready demonstration of modern analytics skills across the full data lifecycle.
