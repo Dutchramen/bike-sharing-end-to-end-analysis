@@ -35,13 +35,17 @@
             WHEN weathersit = 4 THEN 'Heavy Rain/Ice'::text
             ELSE NULL::text
         END AS weather_label,
+    round(temp * 41::numeric * 9::numeric / 5::numeric + 32::numeric, 2) AS temp_f,
+    round(atemp * 50::numeric * 9::numeric / 5::numeric + 32::numeric, 2) AS real_feel_f,
+    hum * 100::numeric AS humidity_pct,
+    round(windspeed * 67::numeric / 1.609, 2) AS windspeed_mph,
+    casual AS casual_users,
+    registered AS registered_users,
+    cnt AS total_rentals,
         CASE
             WHEN yr = 0 THEN 2011
             WHEN yr = 1 THEN 2012
             ELSE NULL::integer
         END AS year_num,
-    round(temp * 47::numeric * 1.8 + 32::numeric, 2) AS temp_f,
-    round(atemp * 66::numeric * 1.8 + 32::numeric, 2) AS real_feel_f,
-    round(windspeed * 67::numeric * 0.621371, 2) AS windspeed_mph,
     to_char(dteday::timestamp with time zone, 'FMMonth'::text) AS month_name
    FROM bike_rentals_hourly;
