@@ -19,7 +19,7 @@ This interactive report visualizes bike‑sharing trends across seasonality, wea
 ### Weather Impact
 ![Weather](powerbi/images/weather.png)
 
-### User Segmentation
+### User Segmentation (User Type Page)
 ![User Types](powerbi/images/user_types.png)
 
 ### Data Model
