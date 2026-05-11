@@ -1,0 +1,4 @@
+ SELECT user_type_code,
+    user_type_label,
+    user_type_description
+   FROM ( VALUES ('casual'::text,'Casual User'::text,'Riders who are not registered members'::text), ('registered'::text,'Registered User'::text,'Riders with an active membership'::text)) t(user_type_code, user_type_label, user_type_description);
