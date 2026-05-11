@@ -1,0 +1,4 @@
+ SELECT DISTINCT weathersit AS weather_id,
+    weather_label AS weather_description
+   FROM cleaned_bike_data
+  ORDER BY weathersit;
