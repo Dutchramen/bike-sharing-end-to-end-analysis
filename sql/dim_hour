@@ -1,0 +1,7 @@
+ WITH hours AS (
+         SELECT generate_series(0, 23) AS hr
+        )
+ SELECT hr,
+    to_char(((hr || ':00'::text)::time without time zone)::interval, 'HH12-MI AM'::text) AS hour_label
+   FROM hours
+  ORDER BY hr;
