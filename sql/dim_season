@@ -1,0 +1,9 @@
+ WITH seasons AS (
+         SELECT s.season,
+            s.season_name
+           FROM ( VALUES (1,'Winter'::text), (2,'Spring'::text), (3,'Summer'::text), (4,'Fall'::text)) s(season, season_name)
+        )
+ SELECT season,
+    season_name
+   FROM seasons
+  ORDER BY season;
