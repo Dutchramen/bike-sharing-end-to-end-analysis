@@ -7,16 +7,16 @@ Designed as a portfolio‑ready demonstration of modern analytics skills across 
 
 This interactive report visualizes bike‑sharing trends across seasonality, weather, and user segments.
 
-### Overview Page
+### Overview 
 ![Overview](powerbi/images/overview.png)
 
-### Seasonality Analysis
+### Seasonality Overview
 ![Seasonality](powerbi/images/seasonality.png)
 
 ### Hourly Patterns
 ![Hourly](powerbi/images/hourly_patterns.png)
 
-### Weather Impact
+### Weather Impact & Environmental Drivers
 ![Weather](powerbi/images/weather.png)
 
 ### User Segmentation (User Type Page)
