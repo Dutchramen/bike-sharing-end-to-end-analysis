@@ -1,0 +1,4 @@
+ SELECT dteday,
+    cnt
+   FROM cleaned_bike_data
+  ORDER BY dteday;
