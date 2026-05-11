@@ -1,0 +1,5 @@
+ SELECT hum,
+    round(avg(cnt), 2) AS avg_rentals
+   FROM cleaned_bike_data
+  GROUP BY hum
+  ORDER BY hum;
