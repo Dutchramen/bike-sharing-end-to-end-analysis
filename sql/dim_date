@@ -1,0 +1,19 @@
+ WITH dates AS (
+         SELECT d.d::date AS dteday
+           FROM generate_series('2011-01-01'::date::timestamp with time zone, '2015-12-31'::date::timestamp with time zone, '1 day'::interval) d(d)
+        )
+ SELECT dteday,
+    EXTRACT(year FROM dteday) AS yr,
+    EXTRACT(month FROM dteday) AS mnth,
+    to_char(dteday::timestamp with time zone, 'Month'::text) AS month_name,
+    EXTRACT(dow FROM dteday) AS weekday,
+    to_char(dteday::timestamp with time zone, 'Day'::text) AS weekday_name,
+    ceil(EXTRACT(month FROM dteday) / 3.0) AS season,
+        CASE
+            WHEN EXTRACT(month FROM dteday) >= 1::numeric AND EXTRACT(month FROM dteday) <= 3::numeric THEN 'Winter'::text
+            WHEN EXTRACT(month FROM dteday) >= 4::numeric AND EXTRACT(month FROM dteday) <= 6::numeric THEN 'Spring'::text
+            WHEN EXTRACT(month FROM dteday) >= 7::numeric AND EXTRACT(month FROM dteday) <= 9::numeric THEN 'Summer'::text
+            ELSE 'Fall'::text
+        END AS season_name
+   FROM dates
+  ORDER BY dteday;
