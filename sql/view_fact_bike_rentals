@@ -1,0 +1,128 @@
+CREATE VIEW public.view_fact_bike_rentals AS
+SELECT
+    f.dteday,
+    -- Hour: raw for sorting, formatted label for display
+    f.hr                                                        AS hr,
+    TO_CHAR(
+        (DATE '2000-01-01' + f.hr * INTERVAL '1 hour'), 
+        'HH12:MI AM'
+    )                                                           AS hour_label,
+
+    -- Optional: broader time-of-day bucket (very useful for bar charts)
+    CASE
+        WHEN f.hr BETWEEN 5  AND 8  THEN 'Early Morning'
+        WHEN f.hr BETWEEN 9  AND 11 THEN 'Morning'
+        WHEN f.hr BETWEEN 12 AND 16 THEN 'Afternoon'
+        WHEN f.hr BETWEEN 17 AND 20 THEN 'Evening'
+        WHEN f.hr BETWEEN 21 AND 23 THEN 'Night'
+        ELSE                             'Late Night'          -- 0-4
+    END                                                         AS time_of_day,
+	-- Sorting key for time_of_day buckets in Power BI
+    CASE
+        WHEN f.hr BETWEEN 0  AND 4  THEN 1  -- Late Night
+        WHEN f.hr BETWEEN 5  AND 8  THEN 2  -- Early Morning
+        WHEN f.hr BETWEEN 9  AND 11 THEN 3  -- Morning
+        WHEN f.hr BETWEEN 12 AND 16 THEN 4  -- Afternoon
+        WHEN f.hr BETWEEN 17 AND 20 THEN 5  -- Evening
+        WHEN f.hr BETWEEN 21 AND 23 THEN 6  -- Night
+    END                                                     AS time_of_day_sort,
+
+    -- Year derived from date (fixes yr 0/1 encoding issue)
+    EXTRACT(YEAR FROM f.dteday)::INT                        AS year,
+	-- Quarter (useful for seasonality)
+    EXTRACT(QUARTER FROM f.dteday)::INT                     AS quarter_num,
+    'Q' || EXTRACT(QUARTER FROM f.dteday)::INT              AS quarter_name,
+    EXTRACT(MONTH FROM f.dteday)::INT                       AS month_num,
+    TRIM(TO_CHAR(f.dteday::timestamptz, 'Month'))   AS month_name,
+
+    -- Day of week: raw for sorting, label for display
+    EXTRACT(DOW FROM f.dteday)::INT                         AS day_of_week_num,  -- 0=Sun, 6=Sat
+    TRIM(TO_CHAR(f.dteday::timestamptz, 'Day'))     AS day_of_week_name,
+	-- Week number (useful for forecasting feature engineering)
+    EXTRACT(WEEK FROM f.dteday)::INT                        AS week_num,
+
+    -- Season: raw + label
+    f.season                                                AS season_num,
+    CASE f.season
+        WHEN 1 THEN 'Spring'
+        WHEN 2 THEN 'Summer'
+        WHEN 3 THEN 'Fall'
+        WHEN 4 THEN 'Winter'
+    END                                                     AS season_name,
+
+    -- Weather: raw + label
+    f.weathersit                                            AS weathersit_num,
+    CASE f.weathersit
+        WHEN 1 THEN 'Clear'
+        WHEN 2 THEN 'Mist/Cloudy'
+        WHEN 3 THEN 'Light Rain/Snow'
+        WHEN 4 THEN 'Heavy Rain/Ice'
+    END                                                     AS weather_desc,
+
+    -- Flags (already binary, but make readable)
+    f.holiday,
+    CASE f.holiday
+        WHEN 1 THEN 'Holiday'
+        WHEN 0 THEN 'Non-Holiday'
+    END                                                     AS holiday_desc,
+
+    f.workingday,
+    CASE f.workingday
+        WHEN 1 THEN 'Working Day'
+        WHEN 0 THEN 'Non-Working Day'
+    END                                                     AS workingday_desc,
+
+    -- Environmental metrics (leave as raw normalized floats)
+    f.temp,
+    f.atemp,
+    f.hum,
+    f.windspeed,
+	-- Environmental: raw (normalized) + human-readable
+    ROUND(f.temp * 41::NUMERIC * 9::NUMERIC / 5::NUMERIC + 32::NUMERIC, 2)     AS temp_f,
+    ROUND(f.atemp * 50::NUMERIC * 9::NUMERIC / 5::NUMERIC + 32::NUMERIC, 2)    AS real_feel_f,
+    CASE WHEN f.hum = 0 THEN NULL 
+         ELSE ROUND((f.hum * 100::NUMERIC), 1) 
+    END                                                                          AS humidity_pct,
+    ROUND(f.windspeed * 67::NUMERIC / 1.609, 2)                                 AS windspeed_mph,
+
+    -- Re-pivoted rentals from fact_user_type
+    MAX(CASE WHEN ut.user_type = 'casual'     THEN ut.rentals ELSE 0 END) AS casual_rentals,
+    MAX(CASE WHEN ut.user_type = 'registered' THEN ut.rentals ELSE 0 END) AS registered_rentals,
+    MAX(CASE WHEN ut.user_type = 'casual'     THEN ut.rentals ELSE 0 END) +
+    MAX(CASE WHEN ut.user_type = 'registered' THEN ut.rentals ELSE 0 END) AS total_rentals,
+	-- Weekend flag (key for user segmentation & forecasting)
+    CASE 
+        WHEN EXTRACT(DOW FROM f.dteday) IN (0, 6) THEN 1 
+        ELSE 0 
+    END                                                     AS is_weekend,
+    CASE 
+        WHEN EXTRACT(DOW FROM f.dteday) IN (0, 6) THEN 'Weekend' 
+        ELSE 'Weekday' 
+    END                                                     AS day_type,
+
+    -- User segmentation ratios (avoid division by zero)
+    CASE 
+        WHEN (MAX(CASE WHEN ut.user_type = 'casual'     THEN ut.rentals ELSE 0 END) +
+              MAX(CASE WHEN ut.user_type = 'registered' THEN ut.rentals ELSE 0 END)) = 0 
+        THEN NULL
+        ELSE ROUND(
+            MAX(CASE WHEN ut.user_type = 'casual' THEN ut.rentals ELSE 0 END)::NUMERIC /
+            NULLIF((MAX(CASE WHEN ut.user_type = 'casual'     THEN ut.rentals ELSE 0 END) +
+                    MAX(CASE WHEN ut.user_type = 'registered' THEN ut.rentals ELSE 0 END)), 0) * 100, 1)
+    END                                                     AS casual_pct
+
+FROM public.cleaned_bike_data f
+LEFT JOIN public.fact_user_type ut
+    ON  f.dteday = ut.dteday
+    AND f.hr     = ut.hr
+GROUP BY
+    f.dteday,
+    f.hr,
+    f.season,
+    f.holiday,
+    f.workingday,
+    f.weathersit,
+    f.temp,
+    f.atemp,
+    f.hum,
+    f.windspeed;
