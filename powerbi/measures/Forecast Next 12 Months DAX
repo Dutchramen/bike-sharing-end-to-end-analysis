@@ -1,0 +1,9 @@
+Forecast Next 12 Months = 
+CALCULATE(
+    SUM('forecast_output'[yhat]),
+    FILTER(
+        ALL('forecast_output'),
+        'forecast_output'[ds] > DATE(2012,12,31)
+            && 'forecast_output'[ds] <= DATE(2013,12,31)
+    )
+)
