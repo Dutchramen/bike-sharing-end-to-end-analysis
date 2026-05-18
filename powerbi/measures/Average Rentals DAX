@@ -1,2 +1,0 @@
-Average Rentals = 
-AVERAGE('public view_fact_bike_rentals'[rentals])
