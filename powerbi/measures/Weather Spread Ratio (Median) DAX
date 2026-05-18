@@ -1,0 +1,13 @@
+Weather Spread Ratio (Median) = 
+VAR MedianClear =
+    CALCULATE(
+        MEDIAN('public view_fact_bike_rentals'[rentals]),
+        'public view_fact_bike_rentals'[weather_desc] = "Clear"
+    )
+VAR MedianWorst =
+    CALCULATE(
+        MEDIAN('public view_fact_bike_rentals'[rentals]),
+        'public view_fact_bike_rentals'[weather_desc] = "Heavy Rain/Ice"
+    )
+RETURN
+    DIVIDE(MedianClear, MedianWorst)
