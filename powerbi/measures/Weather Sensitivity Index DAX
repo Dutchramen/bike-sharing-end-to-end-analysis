@@ -1,0 +1,13 @@
+Weather Sensitivity Index = 
+VAR ClearAvg =
+    CALCULATE(
+        AVERAGE('public view_fact_bike_rentals'[rentals]),
+        'public view_fact_bike_rentals'[weather_desc] = "Clear"
+    )
+VAR NonClearAvg =
+    CALCULATE(
+        AVERAGE('public view_fact_bike_rentals'[rentals]),
+        'public view_fact_bike_rentals'[weather_desc] <> "Clear"
+    )
+RETURN
+    DIVIDE(ClearAvg - NonClearAvg, ClearAvg) * 100
