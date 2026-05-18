@@ -1,0 +1,2 @@
+Projected Growth % = 
+ROUND(DIVIDE([Projected Growth], [Actual Last 12 Months]), 4)
