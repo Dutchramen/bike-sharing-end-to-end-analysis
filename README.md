@@ -44,8 +44,7 @@ bike-sharing-end-to-end-analysis/
 
 ---
 
-### 2. Seasonality
-### Seasonality Overview
+### 2. Seasonality Overview
 ![Seasonality](powerbi/images/seasonality.png)
 Examines monthly and seasonal rental volume and year-over-year growth.
 
@@ -54,7 +53,6 @@ Examines monthly and seasonal rental volume and year-over-year growth.
 ---
 
 ### 3. Hourly Patterns
-### Hourly Patterns
 ![Hourly](powerbi/images/hourly_patterns.png)
 Analyzes intraday demand cycles and year-over-year shifts by hour.
 
@@ -62,8 +60,7 @@ Analyzes intraday demand cycles and year-over-year shifts by hour.
 
 ---
 
-### 4. Weather Impact
-### Weather Impact & Environmental Drivers
+### 4. Weather Impact & Environmental Drivers
 ![Weather](powerbi/images/weather.png)
 Quantifies the effect of weather conditions and humidity on ridership.
 
@@ -71,8 +68,7 @@ Weather influences ridership, but the relationship is more nuanced than a simple
 
 ---
 
-### 5. User Types
-### User Segmentation (User Type Page)
+### 5. User Segmentation (User Type Page)
 ![User Types](powerbi/images/user_types.png)
 Compares behavioral patterns between Casual and Registered riders.
 
@@ -81,14 +77,12 @@ Compares behavioral patterns between Casual and Registered riders.
 ---
 
 ### 6. 12-Month Forecast
-### 12-Month Forecast
 ![12-Month Forecast](powerbi/images/forecast.png)
 Projects rental demand using a Facebook Prophet time-series model.
 
 **Rental demand is projected to grow 29.71% over the next 12 months**, reaching an estimated **2.66M rentals** compared to **2M** in the prior period. The forecast model captures strong seasonal cycling — with summer peaks and winter troughs consistent with historical patterns — while the upward trend line confirms sustained year-over-year growth momentum. Confidence intervals remain relatively tight through mid-2013 before widening, reflecting greater uncertainty further into the forecast horizon. These projections suggest continued expansion of the registered rider base as the primary growth driver.
 
 ## 🗃️ Data Model
-### Data Model
 ![Data Model](powerbi/images/model.png)
 
 The Power BI semantic model follows a **star schema** design:
