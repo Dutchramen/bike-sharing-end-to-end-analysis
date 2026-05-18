@@ -1,0 +1,12 @@
+Lowest Hour = 
+VAR HourTotals =
+    SUMMARIZE(
+        'public view_fact_bike_rentals',
+        'public view_fact_bike_rentals'[hr],
+        'public view_fact_bike_rentals'[hour_label],
+        "TotalRentals", SUM('public view_fact_bike_rentals'[rentals])
+    )
+VAR BottomHour =
+    TOPN(1, HourTotals, [TotalRentals], ASC)
+RETURN
+    MAXX(BottomHour, 'public view_fact_bike_rentals'[hour_label])
