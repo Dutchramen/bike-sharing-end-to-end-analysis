@@ -1,0 +1,18 @@
+YoY % Change = 
+VAR CurrentYear  = MAX('public view_fact_bike_rentals'[year])
+VAR CurrentMonth = MAX('public view_fact_bike_rentals'[month_num])
+VAR CurrentPeriod =
+    CALCULATE(SUM('public view_fact_bike_rentals'[rentals]))
+VAR PriorPeriod =
+    CALCULATE(
+        SUM('public view_fact_bike_rentals'[rentals]),
+        REMOVEFILTERS('public view_fact_bike_rentals'[year]),
+        REMOVEFILTERS('public dim_date'),
+        'public view_fact_bike_rentals'[year]      = CurrentYear - 1,
+        'public view_fact_bike_rentals'[month_num] = CurrentMonth
+    )
+RETURN
+    IF(
+        ISBLANK(PriorPeriod), BLANK(),
+        DIVIDE(CurrentPeriod - PriorPeriod, PriorPeriod) 
+    )
