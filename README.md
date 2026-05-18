@@ -1,34 +1,3 @@
-# bike-sharing-end-to-end-analysis
-A complete end‑to‑end analytics workflow built from raw data to insights.
-This project uses SQL for data cleaning and modeling, Python for exploratory analysis and forecasting preparation, and Power BI for a polished 5‑page interactive dashboard covering seasonality, hourly patterns, weather impact, and user segmentation.
-Designed as a portfolio‑ready demonstration of modern analytics skills across the full data lifecycle.
-
-## 📊 Power BI Dashboard
-
-This interactive report visualizes bike‑sharing trends across seasonality, weather, and user segments.
-
-### Overview 
-![Overview](powerbi/images/overview.png)
-
-### Seasonality Overview
-![Seasonality](powerbi/images/seasonality.png)
-
-### Hourly Patterns
-![Hourly](powerbi/images/hourly_patterns.png)
-
-### Weather Impact & Environmental Drivers
-![Weather](powerbi/images/weather.png)
-
-### User Segmentation (User Type Page)
-![User Types](powerbi/images/user_types.png)
-
-### 12-Month Forecast
-![12-Month Forecast](powerbi/images/forecast.png)
-
-### Data Model
-![Data Model](powerbi/images/model.png)
-
-
 # 🚲 Bike Sharing End-to-End Analysis
 
 > An end-to-end data analytics project covering exploratory data analysis, predictive forecasting, and interactive business intelligence — built for a professional portfolio.
@@ -70,14 +39,14 @@ bike-sharing-end-to-end-analysis/
 
 ## 📊 Dashboard Pages
 
-### 1. User Types
-Compares behavioral patterns between Casual and Registered riders.
-
-**Registered** riders account for over **81%** of total rentals, driven by consistent commuting patterns that peak during morning and evening hours. **Casual** riders show a leisure-oriented profile with stronger afternoon and weekend activity. Weather impacts both groups, but casual riders are more sensitive to rain and cold conditions, while registered riders maintain steadier usage across seasons. Year-over-year growth trends show stronger gains among registered users, reinforcing their role as the core customer base.
+### 1. Overview 
+![Overview](powerbi/images/overview.png)
 
 ---
 
 ### 2. Seasonality
+### Seasonality Overview
+![Seasonality](powerbi/images/seasonality.png)
 Examines monthly and seasonal rental volume and year-over-year growth.
 
 **August** recorded the highest rental volume at **351,194 total rentals** — **160% higher** than January's 134,933 — contributing **10.67%** of all rentals, closely followed by June at **10.52%**. **March** showed the strongest year-over-year growth at **258%**, while June's modest **142%** growth suggests peak summer demand may be approaching a ceiling. The seasonal pattern points to a clear operational strategy: prioritize maintenance and fleet preparation during **low-demand winter months (December–February)** to ensure maximum availability when summer demand peaks.
@@ -85,6 +54,8 @@ Examines monthly and seasonal rental volume and year-over-year growth.
 ---
 
 ### 3. Hourly Patterns
+### Hourly Patterns
+![Hourly](powerbi/images/hourly_patterns.png)
 Analyzes intraday demand cycles and year-over-year shifts by hour.
 
 **5 PM** remains the dominant peak hour, with rental activity more than **75×** higher than the early-morning low at 4 AM. Evening demand alone accounts for **10.23%** of all daily usage, reflecting a strong commute-driven pattern. The most notable shift occurs at **5 AM**, which shows a **76.5% year-over-year increase** — the strongest growth of any hour, suggesting riders are beginning commutes earlier than prior years. A clear behavioral split is emerging — established evening peaks and an accelerating early-morning segment signaling evolving commuter behavior system-wide. The rise in early-morning demand suggests an opportunity to pilot a targeted **'early-bird' incentive (5–10%)** to encourage continued growth in this expanding commuter segment.
@@ -92,20 +63,33 @@ Analyzes intraday demand cycles and year-over-year shifts by hour.
 ---
 
 ### 4. Weather Impact
+### Weather Impact & Environmental Drivers
+![Weather](powerbi/images/weather.png)
 Quantifies the effect of weather conditions and humidity on ridership.
 
 Weather influences ridership, but the relationship is more nuanced than a simple fair-weather effect. Non-clear conditions reduce rentals by only about **22%** on average — suggesting registered commuters maintain habits regardless. Heavy Rain/Ice volatility reflects rarity, not meaningful demand shifts. Humidity is the sharper driver: rentals peak at **144/hr** at moderate humidity **(21–40%)**, then fall to just **54** at the highest levels — a **63% decline**, or roughly **12% per 10-point rise** above 40%. With clear-day ridership **nearly five times higher** than other conditions, promotional strategies targeting optimal weather windows could meaningfully boost volume for both user types.
 
 ---
 
-### 5. 12-Month Forecast
+### 5. User Types
+### User Segmentation (User Type Page)
+![User Types](powerbi/images/user_types.png)
+Compares behavioral patterns between Casual and Registered riders.
+
+**Registered** riders account for over **81%** of total rentals, driven by consistent commuting patterns that peak during morning and evening hours. **Casual** riders show a leisure-oriented profile with stronger afternoon and weekend activity. Weather impacts both groups, but casual riders are more sensitive to rain and cold conditions, while registered riders maintain steadier usage across seasons. Year-over-year growth trends show stronger gains among registered users, reinforcing their role as the core customer base.
+
+---
+
+### 6. 12-Month Forecast
+### 12-Month Forecast
+![12-Month Forecast](powerbi/images/forecast.png)
 Projects rental demand using a Facebook Prophet time-series model.
 
 **Rental demand is projected to grow 29.71% over the next 12 months**, reaching an estimated **2.66M rentals** compared to **2M** in the prior period. The forecast model captures strong seasonal cycling — with summer peaks and winter troughs consistent with historical patterns — while the upward trend line confirms sustained year-over-year growth momentum. Confidence intervals remain relatively tight through mid-2013 before widening, reflecting greater uncertainty further into the forecast horizon. These projections suggest continued expansion of the registered rider base as the primary growth driver.
 
----
-
 ## 🗃️ Data Model
+### Data Model
+![Data Model](powerbi/images/model.png)
 
 The Power BI semantic model follows a **star schema** design:
 
@@ -206,6 +190,6 @@ jupyter notebook bike_share_eda.ipynb
 
 ## 👤 Author
 
-Built as a professional portfolio project demonstrating end-to-end data analytics capabilities — from raw data ingestion through EDA, forecasting, data modeling, and interactive dashboard delivery.
+**Cory Shockley**
 
-🔗 [GitHub Repository](https://github.com/Dutchramen/bike-sharing-end-to-end-analysis)
+Built as a professional portfolio project demonstrating end-to-end data analytics capabilities — from raw data ingestion through EDA, forecasting, data modeling, and interactive dashboard delivery.
